@@ -37,7 +37,6 @@ def layer2_merged(input_dim1,input_dim2,input_dim3,filt_num,conv_depth):
         seq.add(Conv2D(filt_num,(2,2), padding='valid', name='S2_c2%d' % (i))) # pow(25/23,2)*12*(maybe7?) 43 3
         seq.add(BatchNormalization(axis=-1, name='S2_BN%d' % (i)))
         seq.add(Activation('relu', name='S2_relu2%d' %(i)))
-        seq.add(Dropout(0.05))
           
     return seq     
 
