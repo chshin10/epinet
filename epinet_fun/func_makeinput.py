@@ -24,14 +24,26 @@ def make_multiinput(image_path,sz_input,sz_input2,view_n):
     
     RGB = [0.299,0.587,0.114] ## RGB to Gray // 0.299 0.587 0.114
     
-    seqLtoR=list(range(36,45,1)) # [36, 37, 38, 39, 40, 41, 42, 43, 44]
-    seqUtoD=list(range(4,81,9)) # [4, 13, 22, 31, 40, 49, 58, 67, 76]    
-    seq5c=list(range(0,81,10)) # [0, 10, 20, 30, 40, 50, 60, 70, 80]
-    seq7c=list(range(8,80,8)) # [8, 16, 24, 32, 40, 48, 56, 64, 72]
+#    seqLtoR=list(range(36,45,1))[::-1] # [36, 37, 38, 39, 40, 41, 42, 43, 44] 
+#    seqUtoD=list(range(4,81,9)) # [4, 13, 22, 31, 40, 49, 58, 67, 76]    
+#    seq5c=list(range(8,80,8)) # [8, 16, 24, 32, 40, 48, 56, 64, 72]
+#    seq7c=list(range(0,81,10)) # [0, 10, 20, 30, 40, 50, 60, 70, 80]
+    
+ 
+    seqLtoR=list(range(4,81,9))[::-1] # [4, 13, 22, 31, 40, 49, 58, 67, 76]    
+    seqUtoD=list(range(36,45,1)) # [36, 37, 38, 39, 40, 41, 42, 43, 44] 
+    seq5c=list(range(8,80,8))[::-1] # [8, 16, 24, 32, 40, 48, 56, 64, 72]
+    seq7c=list(range(0,81,10)) # [0, 10, 20, 30, 40, 50, 60, 70, 80]
+    
+    
+#    seqLtoR=list(range(36,45,1)) # [36, 37, 38, 39, 40, 41, 42, 43, 44]
+#    seqUtoD=list(range(4,81,9)) # [4, 13, 22, 31, 40, 49, 58, 67, 76]    
+#    seq5c=list(range(0,81,10)) # [0, 10, 20, 30, 40, 50, 60, 70, 80]
+#    seq7c=list(range(8,80,8)) # [8, 16, 24, 32, 40, 48, 56, 64, 72]
     
     val_LtoR=make_epiinput(image_path,seqLtoR,sz_input,sz_input2,view_n,RGB)    
-    val_UtoD=make_epiinput(image_path,seqUtoD[::-1],sz_input,sz_input2,view_n,RGB)
+    val_UtoD=make_epiinput(image_path,seqUtoD,sz_input,sz_input2,view_n,RGB)
     val_5c=make_epiinput(image_path,seq5c,sz_input,sz_input2,view_n,RGB)
-    val_7c=make_epiinput(image_path,seq7c[::-1],sz_input,sz_input2,view_n,RGB) 
+    val_7c=make_epiinput(image_path,seq7c,sz_input,sz_input2,view_n,RGB) 
        
     return val_LtoR , val_UtoD, val_5c, val_7c

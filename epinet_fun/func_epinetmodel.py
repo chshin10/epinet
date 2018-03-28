@@ -54,15 +54,15 @@ def layer3_last(input_dim1,input_dim2,input_dim3,filt_num):
 
 def define_epinet(sz_input,sz_input2,view_n,conv_depth,filt_num,learning_rate):
     
-    input_stack_UtoDb = Input(shape=(sz_input,sz_input2,len(view_n)), name='input_stack_UtoDb')
-    input_stack_LtoRb= Input(shape=(sz_input,sz_input2,len(view_n)), name='input_stack_LtoRb')
-    input_stack_7cb= Input(shape=(sz_input,sz_input2,len(view_n)), name='input_stack_7cb')
+    input_stack_LtoRb = Input(shape=(sz_input,sz_input2,len(view_n)), name='input_stack_LtoRb')
+    input_stack_UtoDb= Input(shape=(sz_input,sz_input2,len(view_n)), name='input_stack_UtoDb')
     input_stack_5cb= Input(shape=(sz_input,sz_input2,len(view_n)), name='input_stack_5cb')
+    input_stack_7cb= Input(shape=(sz_input,sz_input2,len(view_n)), name='input_stack_7cb')
     
-    mid_LtoRa=layer1_multistream(sz_input,sz_input2,len(view_n),int(filt_num))(input_stack_UtoDb)
-    mid_UtoDa=layer1_multistream(sz_input,sz_input2,len(view_n),int(filt_num))(input_stack_LtoRb)    
-    mid_5ca=layer1_multistream(sz_input,sz_input2,len(view_n),int(filt_num))(input_stack_7cb)    
-    mid_7ca=layer1_multistream(sz_input,sz_input2,len(view_n),int(filt_num))(input_stack_5cb)   
+    mid_LtoRa=layer1_multistream(sz_input,sz_input2,len(view_n),int(filt_num))(input_stack_LtoRb)
+    mid_UtoDa=layer1_multistream(sz_input,sz_input2,len(view_n),int(filt_num))(input_stack_UtoDb)    
+    mid_5ca=layer1_multistream(sz_input,sz_input2,len(view_n),int(filt_num))(input_stack_5cb)    
+    mid_7ca=layer1_multistream(sz_input,sz_input2,len(view_n),int(filt_num))(input_stack_7cb)   
 #
     mid_LRUDa = concatenate([mid_LtoRa,mid_UtoDa,mid_5ca,mid_7ca],  name='mid_LRUDa')
     mid_LRUD3a=layer2_merged(sz_input-6,sz_input2-6,int(4*filt_num),int(4*filt_num),conv_depth)(mid_LRUDa)
@@ -70,8 +70,8 @@ def define_epinet(sz_input,sz_input2,view_n,conv_depth,filt_num,learning_rate):
     
     outputa=layer3_last(sz_input-18,sz_input2-18,int(4*filt_num),int(4*filt_num))(mid_LRUD3a)
 
-    model_512 = Model(inputs = [input_stack_UtoDb,input_stack_LtoRb,
-                               input_stack_7cb,input_stack_5cb], outputs = [outputa])
+    model_512 = Model(inputs = [input_stack_LtoRb,input_stack_UtoDb,
+                               input_stack_5cb,input_stack_7cb], outputs = [outputa])
     opt = RMSprop(lr=learning_rate)
     model_512.compile(optimizer=opt, loss='mae')
     model_512.summary() 

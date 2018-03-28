@@ -11,10 +11,10 @@ import time
 from epinet_fun.func_pfm import write_pfm
 from epinet_fun.func_makeinput import make_epiinput
 from epinet_fun.func_makeinput import make_multiinput
-from epinet_fun.func_epinetmodel import define_epinet
 from epinet_fun.func_epinetmodel import layer1_multistream
 from epinet_fun.func_epinetmodel import layer2_merged
 from epinet_fun.func_epinetmodel import layer3_last
+from epinet_fun.func_epinetmodel import define_epinet
 
 import matplotlib.pyplot as plt
 
@@ -38,8 +38,9 @@ if __name__ == '__main__':
         os.makedirs(dir_depth)    
         
     # Checkpoint (= Pretrained Weights)
-#    path_weight='epinet_checkpoints/iter10000_mse1.504_bp3.65.hdf5' 
-    path_weight='epinet_checkpoints/iter13140_mse1.467_bp5.93.hdf5' # sample weight.. not the best one.
+#    path_weight='epinet_checkpoints/iter10000_mse1.504_bp3.65.hdf5'
+    path_weight='epinet_checkpoints/iter2170_mse2.427_bp13.84.hdf5' # sample weight.. not the best one.
+
     
     # number of views ( 0~8 for 9x9 ) 
     angular_views=[0,1,2,3,4,5,6,7,8] 
@@ -80,13 +81,13 @@ if __name__ == '__main__':
         start=time.clock() 
         
         # predict
-        val_output_tmp=model_512.predict([val_UtoD, val_LtoR, 
-                                    val_7c, val_5c], batch_size=1); 
+        val_output_tmp=model_512.predict([val_LtoR, val_UtoD, 
+                                    val_5c,val_7c], batch_size=1); 
         plt.imshow(val_output_tmp[0,:,:,0])
         runtime=time.clock() - start
         print("%.5f(s)" % runtime)
         
         # save .pfm file
         write_pfm(val_output_tmp[0,:,:,0], dir_depth+'/%s.pfm' % (image_path.split('/')[-1]))
-        plt.imshow(val_output_tmp[0,:,:,0])
+#        plt.imshow(val_output_tmp[0,:,:,0])
 
