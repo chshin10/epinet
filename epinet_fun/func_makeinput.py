@@ -29,7 +29,11 @@ def make_multiinput(image_path,sz_input,sz_input2,view_n):
 #    seq5c=list(range(8,80,8)) # [8, 16, 24, 32, 40, 48, 56, 64, 72]
 #    seq7c=list(range(0,81,10)) # [0, 10, 20, 30, 40, 50, 60, 70, 80]
     
- 
+    ''' data from http://hci-lightfield.iwr.uni-heidelberg.de/
+    Sample images "training/dino, training/cotton" Cam000~ Cam080.png  
+    We select seq of images to get epipolar images.
+    For example, LtoR: Cam076.png, 67, 58, 49, 40, 31, 22, 13, 4'''
+    
     seqLtoR=list(range(4,81,9))[::-1] # [4, 13, 22, 31, 40, 49, 58, 67, 76]    
     seqUtoD=list(range(36,45,1)) # [36, 37, 38, 39, 40, 41, 42, 43, 44] 
     seq5c=list(range(8,80,8))[::-1] # [8, 16, 24, 32, 40, 48, 56, 64, 72]
