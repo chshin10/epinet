@@ -13,3 +13,8 @@ Environments
  
  changhashin@yonsei.ac.kr
 
+There were some errors when I upgraded to Tensorflow 1.6.0, 
+I am now re-training the epinet. So performance is not so good because the training has not finished yet. 
+I'll update checkpoint file soon.. 
+
+Last modified date: 03/29/2018
