@@ -21,7 +21,7 @@ import matplotlib.pyplot as plt
 if __name__ == '__main__':
     
     os.environ["CUDA_DEVICE_ORDER"]="PCI_BUS_ID"
-    os.environ["CUDA_VISIBLE_DEVICES"]="0"    
+    os.environ["CUDA_VISIBLE_DEVICES"]="0"    # gtx 1080ti - 0
     
     """ --- Directory setting --- """
     
@@ -39,8 +39,8 @@ if __name__ == '__main__':
         
     # Checkpoint (= Pretrained Weights)
 #    path_weight='epinet_checkpoints/iter10000_mse1.504_bp3.65.hdf5'
-    path_weight='epinet_checkpoints/iter2170_mse2.427_bp13.84.hdf5' # sample weight.. not the best one.
-
+#    path_weight='epinet_checkpoints/iter2170_mse2.427_bp13.84.hdf5' # sample weight.. not the best one.
+    path_weight='epinet_checkpoints/iter15770_mse1.553_bp4.87.hdf5' # sample weight.. not the best one.
     
     # number of views ( 0~8 for 9x9 ) 
     angular_views=[0,1,2,3,4,5,6,7,8] 
