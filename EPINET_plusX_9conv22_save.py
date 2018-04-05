@@ -40,7 +40,7 @@ if __name__ == '__main__':
     # Checkpoint (= Pretrained Weights)
 #    path_weight='epinet_checkpoints/iter10000_mse1.504_bp3.65.hdf5'
 #    path_weight='epinet_checkpoints/iter2170_mse2.427_bp13.84.hdf5' # sample weight.. not the best one.
-    path_weight='epinet_checkpoints/iter15770_mse1.553_bp4.87.hdf5' # sample weight.. not the best one.
+    path_weight='epinet_checkpoints/iter16320_mse1.496_bp3.55.hdf5' # sample weight.
     
     # number of views ( 0~8 for 9x9 ) 
     angular_views=[0,1,2,3,4,5,6,7,8] 
