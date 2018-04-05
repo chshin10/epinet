@@ -15,7 +15,7 @@ from tensorflow.contrib.keras.api.keras.layers import concatenate
 
 def layer1_multistream(input_dim1,input_dim2,input_dim3,filt_num):    
     seq = Sequential()
-    " Multi-Stream layer : Conv - Relu - Conv - BN - Relu  - "
+    ''' Multi-Stream layer : Conv - Relu - Conv - BN - Relu  '''
 
 #    seq.add(Reshape((input_dim1,input_dim12,input_dim3),input_shape=(input_dim1, input_dim2, input_dim3,1)))
     for i in range(3):
@@ -30,7 +30,7 @@ def layer1_multistream(input_dim1,input_dim2,input_dim3,filt_num):
     return seq  
 
 def layer2_merged(input_dim1,input_dim2,input_dim3,filt_num,conv_depth):
-    " Merged layer : Conv - Relu - Conv - BN - Relu"
+    ''' Merged layer : Conv - Relu - Conv - BN - Relu '''
     
     seq = Sequential()
     
@@ -44,7 +44,7 @@ def layer2_merged(input_dim1,input_dim2,input_dim3,filt_num,conv_depth):
     return seq     
 
 def layer3_last(input_dim1,input_dim2,input_dim3,filt_num):   
-    " last layer : Conv - Relu - Conv"
+    ''' last layer : Conv - Relu - Conv ''' 
     
     seq = Sequential()
     
@@ -57,30 +57,30 @@ def layer3_last(input_dim1,input_dim2,input_dim3,filt_num):
     return seq 
 
 def define_epinet(sz_input,sz_input2,view_n,conv_depth,filt_num,learning_rate):
-    
-    " 4-Input : Conv - Relu - Conv - BN - Relu  - "
-    input_stack_LtoRb = Input(shape=(sz_input,sz_input2,len(view_n)), name='input_stack_LtoRb')
-    input_stack_UtoDb= Input(shape=(sz_input,sz_input2,len(view_n)), name='input_stack_UtoDb')
-    input_stack_5cb= Input(shape=(sz_input,sz_input2,len(view_n)), name='input_stack_5cb')
-    input_stack_7cb= Input(shape=(sz_input,sz_input2,len(view_n)), name='input_stack_7cb')
-    
-    " 4-Stream layer : Conv - Relu - Conv - BN - Relu  - "
-    mid_LtoRa=layer1_multistream(sz_input,sz_input2,len(view_n),int(filt_num))(input_stack_LtoRb)
-    mid_UtoDa=layer1_multistream(sz_input,sz_input2,len(view_n),int(filt_num))(input_stack_UtoDb)    
-    mid_5ca=layer1_multistream(sz_input,sz_input2,len(view_n),int(filt_num))(input_stack_5cb)    
-    mid_7ca=layer1_multistream(sz_input,sz_input2,len(view_n),int(filt_num))(input_stack_7cb)   
 
-    " Merge layers"
-    mid_LRUDa = concatenate([mid_LtoRa,mid_UtoDa,mid_5ca,mid_7ca],  name='mid_LRUDa')
+    ''' 4-Input : Conv - Relu - Conv - BN - Relu ''' 
+    input_stack_90d = Input(shape=(sz_input,sz_input2,len(view_n)), name='input_stack_90d')
+    input_stack_0d= Input(shape=(sz_input,sz_input2,len(view_n)), name='input_stack_0d')
+    input_stack_45d= Input(shape=(sz_input,sz_input2,len(view_n)), name='input_stack_45d')
+    input_stack_M45d= Input(shape=(sz_input,sz_input2,len(view_n)), name='input_stack_M45d')
     
-    " Merged layer : Conv - Relu - Conv - BN - Relu"
-    mid_LRUD3a=layer2_merged(sz_input-6,sz_input2-6,int(4*filt_num),int(4*filt_num),conv_depth)(mid_LRUDa)
+    ''' 4-Stream layer : Conv - Relu - Conv - BN - Relu ''' 
+    mid_90d=layer1_multistream(sz_input,sz_input2,len(view_n),int(filt_num))(input_stack_90d)
+    mid_0d=layer1_multistream(sz_input,sz_input2,len(view_n),int(filt_num))(input_stack_0d)    
+    mid_45d=layer1_multistream(sz_input,sz_input2,len(view_n),int(filt_num))(input_stack_45d)    
+    mid_M45d=layer1_multistream(sz_input,sz_input2,len(view_n),int(filt_num))(input_stack_M45d)   
 
-    " Last Conv layer : Conv - Relu - Conv"
-    outputa=layer3_last(sz_input-18,sz_input2-18,int(4*filt_num),int(4*filt_num))(mid_LRUD3a)
+    ''' Merge layers ''' 
+    mid_merged = concatenate([mid_90d,mid_0d,mid_45d,mid_M45d],  name='mid_merged')
+    
+    ''' Merged layer : Conv - Relu - Conv - BN - Relu '''
+    mid_merged_=layer2_merged(sz_input-6,sz_input2-6,int(4*filt_num),int(4*filt_num),conv_depth)(mid_merged)
 
-    model_512 = Model(inputs = [input_stack_LtoRb,input_stack_UtoDb,
-                               input_stack_5cb,input_stack_7cb], outputs = [outputa])
+    ''' Last Conv layer : Conv - Relu - Conv '''
+    output=layer3_last(sz_input-18,sz_input2-18,int(4*filt_num),int(4*filt_num))(mid_merged_)
+
+    model_512 = Model(inputs = [input_stack_90d,input_stack_0d,
+                               input_stack_45d,input_stack_M45d], outputs = [output])
     opt = RMSprop(lr=learning_rate)
     model_512.compile(optimizer=opt, loss='mae')
     model_512.summary() 

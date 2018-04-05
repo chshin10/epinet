@@ -23,11 +23,42 @@ if __name__ == '__main__':
     os.environ["CUDA_DEVICE_ORDER"]="PCI_BUS_ID"
     os.environ["CUDA_VISIBLE_DEVICES"]="0"    # gtx 1080ti - 0
     
-    """ --- Directory setting --- """
+    ''' --- Directory setting --- '''
     
+    ''' 
+    The order of LF image files may be different with this file.
+      (Top to Bottom, Left to Right, and so on..)
+      
+    If you use different LF images, you should change 'func_makeinput.py' file.
+    
+    '''
     # Light field images: input_Cam000-080.png
+    
+    # All viewpoints = 9x9(81)
+    
+    # 00 01 02 03 04 05 06 07 08
+    # 09 10 11 12 13 14 15 16 17
+    # 18 19 20 21 22 23 24 25 26
+    # 27 28 29 30 31 32 33 34 35
+    # 36 37 38 39 40 41 42 43 44
+    # 45 46 47 48 49 50 51 52 53
+    # 54 55 56 57 58 59 60 61 62
+    # 63 64 65 66 67 68 69 70 71
+    # 72 73 74 75 76 77 78 79 80
+    
+    # We select star-shape viewpoints
+    
+    # 00          04          08
+    #    10       13       16 
+    #       20    22    24 
+    #          30 31 32 
+    # 36 37 38 39 40 41 42 43 44
+    #          48 49 50 
+    #       56    58    60 
+    #    64       67       70 
+    # 72          76          80    
+    
     dir_LFimages=['training/dino','training/cotton']
-#    dir_LFimages=['training/cotton']
     image_h=512
     image_w=512
     
@@ -38,8 +69,6 @@ if __name__ == '__main__':
         os.makedirs(dir_depth)    
         
     # Checkpoint (= Pretrained Weights)
-#    path_weight='epinet_checkpoints/iter10000_mse1.504_bp3.65.hdf5'
-#    path_weight='epinet_checkpoints/iter2170_mse2.427_bp13.84.hdf5' # sample weight.. not the best one.
     path_weight='epinet_checkpoints/iter16320_mse1.496_bp3.55.hdf5' # sample weight.
     
     # number of views ( 0~8 for 9x9 ) 
@@ -47,7 +76,7 @@ if __name__ == '__main__':
     
 
 
-    """ --- Define model & initalization --- """
+    ''' --- Define Model --- '''
     
     # model parameters
     model_conv_depth=7
@@ -61,7 +90,7 @@ if __name__ == '__main__':
                             model_learning_rate)
     
     
-    """  --- Initalization --- """
+    '''  --- Model Initalization --- '''
     
     model_512.load_weights(path_weight)
     dum_sz=model_512.input_shape[0]
@@ -73,7 +102,7 @@ if __name__ == '__main__':
     for image_path in dir_LFimages:
 
 
-        (val_LtoR, val_UtoD, val_5c, val_7c)=make_multiinput(image_path,
+        (val_90d , val_0d, val_45d, val_M45d)=make_multiinput(image_path,
                                                              image_h,
                                                              image_w,
                                                              angular_views)
@@ -81,8 +110,8 @@ if __name__ == '__main__':
         start=time.clock() 
         
         # predict
-        val_output_tmp=model_512.predict([val_LtoR, val_UtoD, 
-                                    val_5c,val_7c], batch_size=1); 
+        val_output_tmp=model_512.predict([val_90d , val_0d, 
+                                          val_45d, val_M45d], batch_size=1); 
         plt.imshow(val_output_tmp[0,:,:,0])
         runtime=time.clock() - start
         print("%.5f(s)" % runtime)
