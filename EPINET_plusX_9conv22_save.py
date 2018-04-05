@@ -100,10 +100,10 @@ if __name__ == '__main__':
     
     angular_views=[0,1,2,3,4,5,6,7,8]  # number of views ( 0~8 for 9x9 ) 
     
-    im_scale=1 #   1 for small_baseline(default) <3.5px, 
+    img_scale=1 #   1 for small_baseline(default) <3.5px, 
                # 0.5 for large_baseline images   <  7px
                   
-    im_scale_inv=int(1/im_scale)
+    img_scale_inv=int(1/img_scale)
     
 
 
@@ -112,8 +112,8 @@ if __name__ == '__main__':
     model_conv_depth=7
     model_filt_num=70
     model_learning_rate=0.1**5
-    model_512=define_epinet(int(im_scale_inv*image_h),
-                            int(im_scale_inv*image_w),
+    model_512=define_epinet(int(img_scale_inv*image_h),
+                            int(img_scale_inv*image_w),
                             angular_views,
                             model_conv_depth, 
                             model_filt_num,
@@ -142,10 +142,10 @@ if __name__ == '__main__':
         start=time.clock() 
         
         # predict
-        val_output_tmp=model_512.predict([ val_90d[:,::im_scale_inv,::im_scale_inv], 
-                                            val_0d[:,::im_scale_inv,::im_scale_inv], 
-                                           val_45d[:,::im_scale_inv,::im_scale_inv], 
-                                          val_M45d[:,::im_scale_inv,::im_scale_inv]], 
+        val_output_tmp=model_512.predict([ val_90d[:,::img_scale_inv,::img_scale_inv], 
+                                            val_0d[:,::img_scale_inv,::img_scale_inv], 
+                                           val_45d[:,::img_scale_inv,::img_scale_inv], 
+                                          val_M45d[:,::img_scale_inv,::img_scale_inv]], 
                                           batch_size=1); 
                                           
         runtime=time.clock() - start
