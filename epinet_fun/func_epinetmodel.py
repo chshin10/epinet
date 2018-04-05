@@ -21,7 +21,7 @@ def layer1_multistream(input_dim1,input_dim2,input_dim3,filt_num):
         seq.add(Conv2D(int(filt_num),(2,2),input_shape=(input_dim1, input_dim2, input_dim3), padding='valid', name='S1_c1%d' %(i) ))
         seq.add(Activation('relu', name='S1_relu1%d' %(i))) 
         seq.add(Conv2D(int(filt_num),(2,2), padding='valid', name='S1_c2%d' %(i) )) 
-        seq.add(BatchNormalization(axis=-1, name='S0_BN%d_1' % (i)))
+        seq.add(BatchNormalization(axis=-1, name='S1_BN%d' % (i)))
         seq.add(Activation('relu', name='S1_relu2%d' %(i))) 
 
     seq.add(Reshape((input_dim1-6,input_dim2-6,int(filt_num))))
