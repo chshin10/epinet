@@ -7,9 +7,10 @@ Created on Thu Apr  5 13:38:16 2018
 
 import imageio
 import numpy as np
+import os
 
-def make_epiinput(image_path,seq1,sz_input,sz_input2,view_n,RGB):
-    traindata_tmp=np.zeros((1,sz_input,sz_input2,len(view_n)),dtype=np.float32)
+def make_epiinput(image_path,seq1,image_h,image_w,view_n,RGB):
+    traindata_tmp=np.zeros((1,image_h,image_w,len(view_n)),dtype=np.float32)
     i=0
     if(len(image_path)==1):
         image_path=image_path[0]
@@ -20,8 +21,22 @@ def make_epiinput(image_path,seq1,sz_input,sz_input2,view_n,RGB):
         i+=1
     return traindata_tmp
 
+def make_epiinput_lytro(image_path,seq1,image_h,image_w,view_n,RGB):
+    traindata_tmp=np.zeros((1,image_h,image_w,len(view_n)),dtype=np.float32)
+    
+    i=0
+    if(len(image_path)==1):
+        image_path=image_path[0]
+        
+    for seq in seq1:
+        tmp  = np.float32(imageio.imread(image_path+'/%s_%02d_%02d.png' % (image_path.split("/")[-1],1+seq//9, 1+seq-(seq//9)*9)) )
+        traindata_tmp[0,:,:,i]=(RGB[0]*tmp[:,:,0] + RGB[1]*tmp[:,:,1] + RGB[2]*tmp[:,:,2])/255
+        i+=1
+    return traindata_tmp
+    
 
-def make_multiinput(image_path,sz_input,sz_input2,view_n):
+
+def make_multiinput(image_path,image_h,image_w,view_n):
     
     RGB = [0.299,0.587,0.114] ## RGB to Gray // 0.299 0.587 0.114
     
@@ -45,10 +60,17 @@ def make_multiinput(image_path,sz_input,sz_input2,view_n):
     seq45d=list(range(8,80,8))[::-1] # 45degree:  [72, 64, 56, 48, 40, 32, 24, 16, 8 ]
     seqM45d=list(range(0,81,10)) # -45degree: [0, 10, 20, 30, 40, 50, 60, 70, 80] 
     
-    val_90d=make_epiinput(image_path,seq90d,sz_input,sz_input2,view_n,RGB)    
-    val_0d=make_epiinput(image_path,seq0d,sz_input,sz_input2,view_n,RGB)
-    val_45d=make_epiinput(image_path,seq45d,sz_input,sz_input2,view_n,RGB)
-    val_M45d=make_epiinput(image_path,seqM45d,sz_input,sz_input2,view_n,RGB) 
+    if(image_path[:8]=='training' and os.listdir(image_path)[0][:9]=='input_Cam'):
+        val_90d=make_epiinput(image_path,seq90d,image_h,image_w,view_n,RGB)    
+        val_0d=make_epiinput(image_path,seq0d,image_h,image_w,view_n,RGB)
+        val_45d=make_epiinput(image_path,seq45d,image_h,image_w,view_n,RGB)
+        val_M45d=make_epiinput(image_path,seqM45d,image_h,image_w,view_n,RGB) 
+    
+    elif(image_path[:5]=='lytro'):
+        val_90d=make_epiinput_lytro(image_path,seq90d,image_h,image_w,view_n,RGB)    
+        val_0d=make_epiinput_lytro(image_path,seq0d,image_h,image_w,view_n,RGB)
+        val_45d=make_epiinput_lytro(image_path,seq45d,image_h,image_w,view_n,RGB)
+        val_M45d=make_epiinput_lytro(image_path,seqM45d,image_h,image_w,view_n,RGB) 
        
     
     return val_90d , val_0d, val_45d, val_M45d
