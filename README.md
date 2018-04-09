@@ -1,10 +1,11 @@
-# epinet
+# Epinet
 EPINET: A Fully-Convolutional Neural Network using Epipolar Geometry for Depth from Light Field Images
 
 Changha Shin, Hae-Gon Jeon, Youngjin Yoon, In So Kweon and Seon Joo Kim 
 
 IEEE Conference on Computer Vision and Pattern Recognition (CVPR), Jun 2018 
 
+https://arxiv.org/pdf/1804.02379.pdf
 
 
 Environments
