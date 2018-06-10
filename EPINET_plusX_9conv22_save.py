@@ -4,6 +4,45 @@ Created on Wed Mar 28 14:41:04 2018
 
 @author: shinyonsei2
 """
+
+''' 
+The order of LF image files may be different with this file.
+(Top to Bottom, Left to Right, and so on..)
+  
+If you use different LF images, 
+
+you should change our 'func_makeinput.py' file.
+
+# Light field images: input_Cam000-080.png
+# All viewpoints = 9x9(81)
+
+# -- LF viewpoint ordering --
+# 00 01 02 03 04 05 06 07 08
+# 09 10 11 12 13 14 15 16 17
+# 18 19 20 21 22 23 24 25 26
+# 27 28 29 30 31 32 33 34 35
+# 36 37 38 39 40 41 42 43 44
+# 45 46 47 48 49 50 51 52 53
+# 54 55 56 57 58 59 60 61 62
+# 63 64 65 66 67 68 69 70 71
+# 72 73 74 75 76 77 78 79 80
+ 
+
+# We use star-shape 9x9 viewpoints 
+# for depth estimation
+#
+# 00          04          08
+#    10       13       16 
+#       20    22    24 
+#          30 31 32 
+# 36 37 38 39 40 41 42 43 44
+#          48 49 50 
+#       56    58    60 
+#    64       67       70 
+# 72          76          80    
+
+'''
+
 #import numpy as np
 import numpy as np
 import os
@@ -33,31 +72,53 @@ if __name__ == '__main__':
     
 
 
-    ''' 
-    The order of LF image files may be different with this file.
-      (Top to Bottom, Left to Right, and so on..)
-      
-    If you use different LF images, 
+
+    '''
+    /// Setting 1. LF Images Directory
     
-    you should change our 'func_makeinput.py' file.
+    Setting01_LFdir = 'synthetic': Test synthetic LF images (from 4D Light Field Benchmark)
+                                 "A Dataset and Evaluation Methodology for 
+                                 Depth Estimation on 4D Light Fields".
+                                http://hci-lightfield.iwr.uni-heidelberg.de/
+
+    Setting01_LFdir = 'Lytro': Test real LF images(Lytro)
     
     '''
-    # Light field images: input_Cam000-080.png
-    # All viewpoints = 9x9(81)
+    Setting01_LFdir = 'synthetic'
+#    Setting01_LFdir='Lytro'
     
-    # -- LF viewpoint ordering --
-    # 00 01 02 03 04 05 06 07 08
-    # 09 10 11 12 13 14 15 16 17
-    # 18 19 20 21 22 23 24 25 26
-    # 27 28 29 30 31 32 33 34 35
-    # 36 37 38 39 40 41 42 43 44
-    # 45 46 47 48 49 50 51 52 53
-    # 54 55 56 57 58 59 60 61 62
-    # 63 64 65 66 67 68 69 70 71
-    # 72 73 74 75 76 77 78 79 80
- 
+    if(Setting01_LFdir=='synthetic'):    
+        dir_LFimages=['training/dino','training/cotton']
+        image_w=512
+        image_h=512
+        
+    elif(Setting01_LFdir=='Lytro'): 
+        dir_LFimages=['lytro/2067']    
+        image_w=552
+        image_h=383  
+        
+        
+        
+        
+    '''
+    /// Setting 2. Angular Views 
     
-    # We select star-shape viewpoints
+    Setting02_AngualrViews = [2,3,4,5,6] : 5x5 viewpoints
+    
+    Setting02_AngualrViews = [0,1,2,3,4,5,6,7,8] : 9x9 viewpoints
+    
+    # ------ 5x5 viewpoints -----
+    #                                  
+    #       20    22    24 
+    #          30 31 32 
+    #       38 39 40 41 42      
+    #          48 49 50 
+    #       56    58    60 
+    #                         
+    # ---------------------------                      
+    
+    # ------ 9x9 viewpoints -----
+    # 
     # 00          04          08
     #    10       13       16 
     #       20    22    24 
@@ -66,55 +127,37 @@ if __name__ == '__main__':
     #          48 49 50 
     #       56    58    60 
     #    64       67       70 
-    # 72          76          80    
-    
+    # 72          76          80       
+    #
+    # ---------------------------
     '''
-    LF Images Directory
     
-    Test_type 0: Test synthetic LF images (from 4D Light Field Benchmark)
-                                 "A Dataset and Evaluation Methodology for 
-                                 Depth Estimation on 4D Light Fields".
-                                http://hci-lightfield.iwr.uni-heidelberg.de/
+#    Setting02_AngualrViews = [2,3,4,5,6]  # number of views ( 2~6 for 5x5 )     
+    Setting02_AngualrViews = [0,1,2,3,4,5,6,7,8]  # number of views ( 0~8 for 9x9 ) 
 
-    Test_type 1: Test real LF images(lytro)
-    
-    '''
-#    Test_type=0
-    Test_type=1
-    
-    
-    
-    if(Test_type==0):    
-        dir_LFimages=['training/dino','training/cotton']
-        image_w=512
-        image_h=512
-        
-    elif(Test_type==1): 
-        dir_LFimages=['lytro/2067']    
-        image_w=552
-        image_h=383  
-        
+    if(len(Setting02_AngualrViews)==5):
+        path_weight='epinet_checkpoints/iter12640_5x5mse1.526_bp5.96.hdf5' # sample weight.    
+    if(len(Setting02_AngualrViews)==9):
+        path_weight='epinet_checkpoints/iter16320_9x9mse1.496_bp3.55.hdf5' # sample weight.
 
 
-    path_weight='epinet_checkpoints/iter16320_mse1.496_bp3.55.hdf5' # sample weight.
-    
-    angular_views=[0,1,2,3,4,5,6,7,8]  # number of views ( 0~8 for 9x9 ) 
-    
+
+
     img_scale=1 #   1 for small_baseline(default) <3.5px, 
-               # 0.5 for large_baseline images   <  7px
-                  
+                # 0.5 for large_baseline images   <  7px
+                
     img_scale_inv=int(1/img_scale)
     
-
+    
 
     ''' Define Model ( set parameters )'''
     
     model_conv_depth=7
     model_filt_num=70
     model_learning_rate=0.1**5
-    model_512=define_epinet(int(img_scale_inv*image_h),
-                            int(img_scale_inv*image_w),
-                            angular_views,
+    model_512=define_epinet(round(img_scale*image_h),
+                            round(img_scale*image_w),
+                            Setting02_AngualrViews,
                             model_conv_depth, 
                             model_filt_num,
                             model_learning_rate)
@@ -137,7 +180,7 @@ if __name__ == '__main__':
         (val_90d , val_0d, val_45d, val_M45d)=make_multiinput(image_path,
                                                              image_h,
                                                              image_w,
-                                                             angular_views)
+                                                             Setting02_AngualrViews)
 
         start=time.clock() 
         
@@ -150,7 +193,7 @@ if __name__ == '__main__':
                                           
         runtime=time.clock() - start
         plt.imshow(val_output_tmp[0,:,:,0])
-        print("%.5f(s)" % runtime)
+        print("runtime: %.5f(s)" % runtime)
          
         # save .pfm file
         write_pfm(val_output_tmp[0,:,:,0], dir_output+'/%s.pfm' % (image_path.split('/')[-1]))
