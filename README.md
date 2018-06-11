@@ -10,9 +10,9 @@ https://arxiv.org/pdf/1804.02379.pdf
 
 Environments
 
-- Python3.5.2, Anaconda 4.2.0 (64-bit), Tensorflow 1.6.0
+- Python3.5.2, Anaconda 4.2.0 (64-bit), Tensorflow 1.6.0 - 1.8.0
  
- changhashin@yonsei.ac.kr
+Contact: changhashin@yonsei.ac.kr
 
 
-Last modified date: 04/05/2018
+Last modified date: 06/10/2018
