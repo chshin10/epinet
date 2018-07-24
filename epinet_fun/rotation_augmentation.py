@@ -86,5 +86,5 @@ def rotation_augmentation(seq_90d_batch, seq_0d_batch,seq_45d_batch,seq_M45d_bat
             
             label_batch[batch_i,:,:]=np.copy(np.rot90(label_batch[batch_i,:,:],3,(0,1)))  
 
-    return seq_90d_batch, seq_0d_batch, seq_45d_batch, seq_M45d_batch
+    return seq_90d_batch, seq_0d_batch, seq_45d_batch, seq_M45d_batch, label_batch
 
