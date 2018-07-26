@@ -16,7 +16,8 @@ Created on Mon Jul 23 10:11:34 2018
     --> label patch size is decreased by convolutional layers with no-padding
 
 
-    View stack ordering is very important!! <-- https://github.com/chshin10/epinet/issues/1
+    !!! Caution: The order of View stack is very important! 
+    Please see this link for detail description. https://github.com/chshin10/epinet/issues/1
     
 """
 import numpy as np
