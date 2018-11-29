@@ -67,13 +67,13 @@ def load_LFdata(dir_LFimages):
             try:
                 tmp  = np.float32(imageio.imread('hci_dataset/'+dir_LFimage+'/input_Cam0%.2d.png' % i)) # load LF images(9x9) 
             except:
-                print('hci_dataset/'+dir_LFimage+'/input_Cam0%.2d.png..is not exist' % i )
+                print('hci_dataset/'+dir_LFimage+'/input_Cam0%.2d.png..does not exist' % i )
             traindata_all[image_id,:,:,i//9,i-9*(i//9),:]=tmp  
             del tmp
         try:            
             tmp  = np.float32(read_pfm('hci_dataset/'+dir_LFimage+'/gt_disp_lowres.pfm')) # load LF disparity map
         except:
-            print('hci_dataset/'+dir_LFimage+'/gt_disp_lowres.pfm..is not exist' % i )            
+            print('hci_dataset/'+dir_LFimage+'/gt_disp_lowres.pfm..does not exist' % i )            
         traindata_label[image_id,:,:]=tmp  
         del tmp
         image_id=image_id+1
