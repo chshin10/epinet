@@ -165,7 +165,7 @@ if __name__ == '__main__':
     
 
 
-    ''' Model Initalization '''
+    ''' Model Initialization '''
     
     model_512.load_weights(path_weight)
     dum_sz=model_512.input_shape[0]
