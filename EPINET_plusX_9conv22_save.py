@@ -136,9 +136,9 @@ if __name__ == '__main__':
     Setting02_AngualrViews = [0,1,2,3,4,5,6,7,8]  # number of views ( 0~8 for 9x9 ) 
 
     if(len(Setting02_AngualrViews)==5):
-        path_weight='epinet_checkpoints/iter12640_5x5mse1.526_bp5.96.hdf5' # sample weight.    
+        path_weight='epinet_checkpoints/pretrained_5x5.hdf5' # sample weight.    
     if(len(Setting02_AngualrViews)==9):
-        path_weight='epinet_checkpoints/iter16320_9x9mse1.496_bp3.55.hdf5' # sample weight.
+        path_weight='epinet_checkpoints/pretrained_9x9.hdf5' # sample weight.
 #        path_weight='epinet_checkpoints/EPINET_train_ckp/iter0097_trainmse2.706_bp12.06.hdf5'
 
 
