@@ -1,0 +1,13 @@
+The 4D Light Field Benchmark was jointly created by the University of Konstanz and the HCI at Heidelberg University. 
+The work is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License. 
+To view a copy of this license visit https://creativecommons.org/licenses/by-nc-sa/4.0/. 
+If you use any part of the benchmark, please cite our paper "A dataset and evaluation methodology for depth estimation on 4D light fields". Thanks! 
+
+@inproceedings{honauer2016benchmark,
+  title={A dataset and evaluation methodology for depth estimation on 4D light fields},
+  author={Honauer, Katrin and Johannsen, Ole and Kondermann, Daniel and Goldluecke, Bastian},
+  booktitle={Asian Conference on Computer Vision},
+  year={2016},
+  organization={Springer}
+}
+
