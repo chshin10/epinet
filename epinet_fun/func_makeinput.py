@@ -62,7 +62,7 @@ def make_multiinput(image_path,image_h,image_w,view_n):
     seq45d=list(range(8,80,8)[::-1][slice_for_5x5:9-slice_for_5x5:]) # 45degree:  [72, 64, 56, 48, 40, 32, 24, 16, 8 ]
     seqM45d=list(range(0,81,10)[slice_for_5x5:9-slice_for_5x5:])    # -45degree:  [0, 10, 20, 30, 40, 50, 60, 70, 80] 
     
-    if(image_path[:8]=='training' and os.listdir(image_path)[0][:9]=='input_Cam'):
+    if(image_path[:12]=='hci_dataset/'):
         val_90d=make_epiinput(image_path,seq90d,image_h,image_w,view_n,RGB)    
         val_0d=make_epiinput(image_path,seq0d,image_h,image_w,view_n,RGB)
         val_45d=make_epiinput(image_path,seq45d,image_h,image_w,view_n,RGB)

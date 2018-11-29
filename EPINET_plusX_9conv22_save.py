@@ -88,7 +88,7 @@ if __name__ == '__main__':
 #    Setting01_LFdir='Lytro'
     
     if(Setting01_LFdir=='synthetic'):    
-        dir_LFimages=['training/dino','training/cotton']
+        dir_LFimages=['hci_dataset/training/dino','hci_dataset/training/cotton']
         image_w=512
         image_h=512
         
@@ -139,6 +139,7 @@ if __name__ == '__main__':
         path_weight='epinet_checkpoints/iter12640_5x5mse1.526_bp5.96.hdf5' # sample weight.    
     if(len(Setting02_AngualrViews)==9):
         path_weight='epinet_checkpoints/iter16320_9x9mse1.496_bp3.55.hdf5' # sample weight.
+#        path_weight='epinet_checkpoints/EPINET_train_ckp/iter0097_trainmse2.706_bp12.06.hdf5'
 
 
 
@@ -197,5 +198,6 @@ if __name__ == '__main__':
          
         # save .pfm file
         write_pfm(val_output_tmp[0,:,:,0], dir_output+'/%s.pfm' % (image_path.split('/')[-1]))
+        print('pfm file saved in %s/%s.pfm' % (dir_output,image_path.split('/')[-1]))
 
 

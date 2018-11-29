@@ -63,16 +63,18 @@ def write_pfm(data, fpath, scale=1, file_identifier=b'Pf', dtype="float32"):
 
         file.write(values)
         
-def _get_next_line(f):
-    next_line = f.readline().decode('utf-8').rstrip()
-    # ignore comments
-    while next_line.startswith('#'):
-        next_line = f.readline().rstrip()
-    return next_line
+
         
 def read_pfm(fpath, expected_identifier="Pf"):
     # PFM format definition: http://netpbm.sourceforge.net/doc/pfm.html
-
+    
+    def _get_next_line(f):
+        next_line = f.readline().decode('utf-8').rstrip()
+        # ignore comments
+        while next_line.startswith('#'):
+            next_line = f.readline().rstrip()
+        return next_line
+    
     with open(fpath, 'rb') as f:
         #  header
         identifier = _get_next_line(f)
@@ -109,4 +111,4 @@ def read_pfm(fpath, expected_identifier="Pf"):
         except:
             raise Exception('Invalid binary values. Could not create %dx%d array from input.' % (height, width))
 
-        return data 
+        return data
