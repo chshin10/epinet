@@ -17,7 +17,7 @@ Contact: changhashin@yonsei.ac.kr
 
 # For train EPINET
  First, you need to download HCI Light field dataset from http://hci-lightfield.iwr.uni-heidelberg.de/.
- Unzip the LF dataset and move 'additional/, training/, test/, stratified/ 'to hci_dataset folder.
+ Unzip the LF dataset and move 'additional/, training/, test/, stratified/ ' into the 'hci_dataset/'.
  
  And run `python EPINET_train.py`
  
