@@ -8,11 +8,15 @@ IEEE Conference on Computer Vision and Pattern Recognition (CVPR), Jun 2018
 https://arxiv.org/pdf/1804.02379.pdf
 
 
+Contact: changhashin@yonsei.ac.kr
+
+
 # Environments
 
 - Python3.5.2, Anaconda 4.2.0 (64-bit), Tensorflow 1.6.0 - 1.12.0
- 
-Contact: changhashin@yonsei.ac.kr
+- `pip install imageio` 
+- `pip install opencv-python`
+
 
 
 # For train EPINET
