@@ -18,7 +18,7 @@ Contact: changhashin@yonsei.ac.kr
 
 
 
-# For train EPINET
+# Train the EPINET
  First, you need to download HCI Light field dataset from http://hci-lightfield.iwr.uni-heidelberg.de/.
  Unzip the LF dataset and move 'additional/, training/, test/, stratified/ ' into the 'hci_dataset/'.
  
@@ -26,8 +26,9 @@ Contact: changhashin@yonsei.ac.kr
  
  - Checkpoint files will be saved in 'epinet_checkpoints/EPINET_train_ckp/iterXXX_XX.hdf5', it could be used for test EPINET model.
  - Training process will be saved 'epinet_output/EPINET_train/train_XX.jpg'. (XX is iteration number). 
+ - You might be change the setting 'learning rate','patch_size' and so on to get better result.
 
-# For test EPINET
+# Test the EPINET
 
 Run `python EPINET_plusX_9conv22_save.py`
 
